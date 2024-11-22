@@ -1,0 +1,74 @@
+/*
+Author       : Creativeguys
+Template Name: Consult - Consultation Firm HTML Template
+Version      : 1.0
+*/
+
+/*RESPONSIVE DEVICE MEDIA 768PX*/
+@media only screen and (max-width:812px) { 
+.navbar-light .navbar-nav .nav-link {
+	font-size: 14px;
+	padding: 0 10px;
+}
+
+}
+
+@media only screen and (max-width:768px) { 
+.bg-faded {background:#7564e5;}
+.navbar-light .navbar-nav .nav-link {color: #fff;}
+.navbar-fixed {background:#fff;}
+.navbar-fixed.navbar-light .navbar-nav .nav-link{color:#111;}
+.navbar-light .navbar-nav .nav-link {
+	font-size: 14px;
+	padding: 0 10px;
+}
+.block-menu {
+	padding: 6px 20px !important;
+	margin-top: 0px;
+	text-align:center;
+}
+.single-service-info {
+	margin-top: 0px;
+	padding-right: 0px;
+}
+.single-about{margin-top:0px;margin-bottom:60px;}
+.read_btn {padding: 12px 30px;}
+.single_callback p {width:100%;}
+
+.callback_form input {width:100%;}
+
+.content-history h1 {
+	font-size: 35px;
+	line-height: 46px;
+	margin-bottom: 30px;
+	text-transform: capitalize;
+	font-weight: 600;
+	margin-top: 20px;
+}
+.single_case_studies {
+	margin-top: 60px;
+	margin-bottom: 60px;
+}
+}
+
+
+/*RESPONSIVE DEVICE MEDIA 480PX*/
+@media only screen and (max-width:480px) { 
+.navbar-light .navbar-nav .nav-link {padding: 8px 0px;}
+.collapse.show {display: block;padding: 0!important;}
+
+.hero-text  {padding-top:270px;}
+.hero-text h1 {font-size:40px;line-height:52px;font-weight:600;}
+.hero-text p {width: 90%;margin-left:0px;}
+.read_btn {padding: 10px 20px;}
+.single-about h1 {font-size: 46px;line-height: 56px;}
+.single-service-info h2 {font-size: 40px;}
+.single-service-info {margin-bottom: 60px;}
+.single-advisor img {width: 100%;}
+.single-service h4 {font-size:17px;}
+.content-history-img img {margin-bottom: 30px;}
+.page-service-content {margin-bottom: 60px;}
+.pleft {padding-left:0px;margin-top: 60px;}
+.address-bg {margin-top: 60px;}
+
+}
