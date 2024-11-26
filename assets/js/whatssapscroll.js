@@ -1,9 +1,19 @@
+let isChatboxVisible = false;
+const chatbox = document.querySelector(".WA_Chat_Widget .WA_ChatBox");
+const overlay = document.createElement("div");
 
-const whatsappIcon = document.querySelector('#whatsapp-icon');
+// Add overlay for better focus
+overlay.className = "overlay";
+document.body.appendChild(overlay);
 
-whatsappIcon.addEventListener('click', () => {
-if (window.scrollY > 0) {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+function hideChatbox() {
+    isChatboxVisible = false;
+    chatbox.style.display = "none";
+    overlay.style.display = "none"; // Hide overlay
 }
-});
 
+function toggleChatbox() {
+    isChatboxVisible = !isChatboxVisible;
+    chatbox.style.display = isChatboxVisible ? "block" : "none";
+    overlay.style.display = isChatboxVisible ? "block" : "none"; // Show/hide overlay
+}
