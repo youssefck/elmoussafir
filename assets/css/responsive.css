@@ -57,9 +57,7 @@ Version      : 1.0
 .navbar-light .navbar-nav .nav-link {padding: 8px 0px;}
 .collapse.show {display: block;padding: 0!important;}
 
-.hero-text  {padding-top:270px;}
-.hero-text h1 {font-size:40px;line-height:52px;font-weight:600;}
-.hero-text p {width: 90%;margin-left:0px;}
+
 .read_btn {padding: 10px 20px;}
 .single-about h1 {font-size: 46px;line-height: 56px;}
 .single-service-info h2 {font-size: 40px;}
@@ -72,3 +70,5 @@ Version      : 1.0
 .address-bg {margin-top: 60px;}
 
 }
+
+
