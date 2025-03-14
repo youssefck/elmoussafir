@@ -113,7 +113,33 @@ $contents = $stmt->fetchAll();
         </div>
 
         <div class="row">
-            <?php if ($current_page === 'contact'): ?>
+            <?php if ($current_page === 'service'): ?>
+                <!-- Service Content -->
+                <?php foreach ($contents as $content): ?>
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-edit"></i> 
+                                    <?php echo ucfirst($content['section_name']); ?>
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <form method="POST">
+                                    <input type="hidden" name="section_name" value="<?php echo $content['section_name']; ?>">
+                                    <div class="mb-3">
+                                        <label class="form-label">Contenu:</label>
+                                        <textarea class="form-control" name="content" rows="4"><?php echo htmlspecialchars($content['content']); ?></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i> Mettre à jour le contenu
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php elseif ($current_page === 'contact'): ?>
                 <!-- Contact Form Section -->
                 <div class="col-md-6 mb-4">
                     <div class="card">
@@ -209,6 +235,60 @@ $contents = $stmt->fetchAll();
                         </div>
                     </div>
                 </div>
+            <?php elseif ($current_page === 'about'): ?>
+                <?php foreach ($contents as $content): ?>
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-edit"></i> 
+                                    <?php echo ucfirst($content['section_name']); ?>
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <form method="POST">
+                                    <input type="hidden" name="section_name" value="<?php echo $content['section_name']; ?>">
+                                    <div class="mb-3">
+                                        <label class="form-label">Contenu:</label>
+                                        <?php if (strpos($content['section_name'], 'link') !== false): ?>
+                                            <input type="url" class="form-control" name="content" value="<?php echo htmlspecialchars($content['content']); ?>" placeholder="Enter URL">
+                                        <?php else: ?>
+                                            <textarea class="form-control" name="content" rows="4"><?php echo htmlspecialchars($content['content']); ?></textarea>
+                                        <?php endif; ?>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i> Mettre à jour le contenu
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php elseif ($current_page === 'terms'): ?>
+                <?php foreach ($contents as $content): ?>
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-edit"></i> 
+                                    <?php echo ucfirst($content['section_name']); ?>
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <form method="POST">
+                                    <input type="hidden" name="section_name" value="<?php echo $content['section_name']; ?>">
+                                    <div class="mb-3">
+                                        <label class="form-label">Contenu:</label>
+                                        <textarea class="form-control" name="content" rows="4"><?php echo htmlspecialchars($content['content']); ?></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i> Mettre à jour le contenu
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             <?php else: ?>
                 <?php foreach ($contents as $content): ?>
                     <div class="col-md-6 mb-4">
@@ -223,11 +303,11 @@ $contents = $stmt->fetchAll();
                                 <form method="POST">
                                     <input type="hidden" name="section_name" value="<?php echo $content['section_name']; ?>">
                                     <div class="mb-3">
-                                        <label class="form-label">Content:</label>
+                                        <label class="form-label">Contenu:</label>
                                         <textarea class="form-control" name="content" rows="4"><?php echo htmlspecialchars($content['content']); ?></textarea>
                                     </div>
                                     <button type="submit" class="btn btn-primary">
-                                        <i class="fas fa-save"></i> Update Content
+                                        <i class="fas fa-save"></i> Mettre à jour le contenu
                                     </button>
                                 </form>
                             </div>

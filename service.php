@@ -198,40 +198,6 @@ function getContent($pdo, $section_name) {
         </section>
         <!-- END SERVICE -->
         
-        <!-- START COUNTER -->
-        <section class="counter-area counter_feature section-padding">
-            <div class="container">                                    
-                <div class="section-title text-center">
-                    <h1>Chiffres Clés</h1>
-                    <p><?php echo getContent($pdo, 'counter_intro'); ?></p>
-                </div>                
-                <div class="row text-center">                                
-                    <div class="col-lg-4 col-sm-4 col-xs-12">
-                        <div class="single-counter">
-                            <span class="ti-check-box"></span>
-                            <h2 class="counter-num"><?php echo getContent($pdo, 'stats_clients'); ?></h2>
-                            <h4>Clients Satisfaits</h4>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-4 col-xs-12">
-                        <div class="single-counter counter-br">
-                            <span class="ti-crown"></span>
-                            <h2 class="counter-num"><?php echo getContent($pdo, 'stats_deliveries'); ?></h2>
-                            <h4>Livraisons Réussies</h4>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-4 col-xs-12">
-                        <div class="single-counter">
-                            <span class="ti-user"></span>
-                            <h2 class="counter-num"><?php echo getContent($pdo, 'stats_experts'); ?></h2>
-                            <h4>Experts en Transport et Douane</h4>
-                        </div>
-                    </div>          
-                </div>
-            </div>
-        </section>
-        <!-- END COUNTER -->
-
         <!-- START WHATSSAP --> 
         <div class="WA_Chat_Widget" data-position="bottom-right">
             <div class="WA_ChatBox">
@@ -240,8 +206,8 @@ function getContent($pdo, $section_name) {
                         <img src="assets/img/chairman.png" alt="Chat Avatar">
                     </div>
                     <div class="infoBox">
-                        <h4 class="name"><?php echo getContent($pdo, 'service', 'company_name'); ?></h4>
-                        <span class="answer_time"><?php echo getContent($pdo, 'service', 'response_time'); ?></span>
+                        <h4 class="name"><?php echo getContent($pdo, 'company_name'); ?></h4>
+                        <span class="answer_time"><?php echo getContent($pdo, 'response_time'); ?></span>
                     </div>
                     <button class="WA_Close" onclick="hideChatbox()"><svg xmlns="http://www.w3.org/2000/svg" height="1em"
                             viewBox="0 0 512 512">
@@ -252,12 +218,12 @@ function getContent($pdo, $section_name) {
                 <div class="WA_ChatBox_Body">
                     <div class="message">
                         <div class="message_content">
-                            <p><?php echo getContent($pdo, 'service', 'whatsapp_message'); ?></p>
+                            <p><?php echo getContent($pdo, 'whatsapp_message'); ?></p>
                         </div>
                     </div>
                 </div>
                 <div class="WA_ChatBox_Footer">
-                    <a class="btn btn-whatsapp" href="http://wa.me/<?php echo getContent($pdo, 'service', 'whatsapp_number'); ?>" target="_blank">Commencer le chat</a>
+                    <a class="btn btn-whatsapp" href="http://wa.me/<?php echo getContent($pdo, 'whatsapp_number'); ?>" target="_blank">Commencer le chat</a>
                 </div>
             </div>
             <div class="WA_FloatingButton" onclick="toggleChatbox()">

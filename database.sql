@@ -91,7 +91,10 @@ INSERT INTO index_content (section_name, content) VALUES
 -- Insert service page content
 INSERT INTO service_content (section_name, content) VALUES
 ('page_title', 'Service'),
-('counter_intro', 'Notre mission est d''assurer le transport sécurisé et fiable de vos colis, qu''il s''agisse de biens personnels ou commerciaux. Nous mettons notre expertise et notre engagement à votre service pour garantir des livraisons réussies et une satisfaction client optimale.'),
+('whatsapp_message', 'Salut, comment puis-je vous aider?'),
+('company_name', 'Morchid Elmoussafir'),
+('response_time', 'Répond généralement dans la journée'),
+('whatsapp_number', '212665922154'),
 
 -- Service 1 (Stockage)
 ('service1_title', 'Stockage des colis'),
@@ -170,11 +173,7 @@ INSERT INTO about_content (section_name, content) VALUES
 ('chairman_text3', 'Respect des délais de livraison annoncés.'),
 ('video_title', 'Transport Fiable et Efficace pour Vos Colis'),
 ('video_text', 'Notre approche stratégique garantit un transport fiable et efficace pour votre entreprise. Nous mettons tout en œuvre pour optimiser chaque étape de la chaîne logistique, afin de vous offrir des solutions adaptées à vos besoins et des livraisons toujours ponctuelles.'),
-('counter_title', 'Chiffres Clés'),
-('counter_text', 'Notre mission est d''assurer le transport sécurisé et fiable de vos colis, qu''il s''agisse de biens personnels ou commerciaux. Nous mettons notre expertise et notre engagement à votre service pour garantir des livraisons réussies et une satisfaction client optimale.'),
-('stats_clients', '521'),
-('stats_deliveries', '754'),
-('stats_experts', '128'),
+('video_link', 'https://www.youtube.com/watch?v=your_video_id'),
 ('company_name', 'Morchid Elmoussafir'),
 ('response_time', 'Répond généralement dans la journée'),
 ('whatsapp_message', 'Salut, comment puis-je vous aider?'),

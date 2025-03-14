@@ -135,7 +135,21 @@ function getContent($pdo, $section_name) {
                         <div class="our_video">
                             <h1><?php echo getContent($pdo, 'video_title'); ?></h1>
                             <p><?php echo getContent($pdo, 'video_text'); ?></p>
-                            <a class="video-play" href=""><i class="ti-video-clapper"></i></a>
+                            <?php 
+                            $video_link = getContent($pdo, 'video_link');
+                            // Extract video ID from URL
+                            $video_id = '';
+                            if (preg_match('/[?&]v=([^&]+)/', $video_link, $matches)) {
+                                $video_id = $matches[1];
+                            } elseif (preg_match('/embed\/([^\/\?]+)/', $video_link, $matches)) {
+                                $video_id = $matches[1];
+                            } elseif (preg_match('/youtu\.be\/([^\/\?]+)/', $video_link, $matches)) {
+                                $video_id = $matches[1];
+                            }
+                            ?>
+                            <a class="video-play popup-youtube" href="https://www.youtube.com/watch?v=<?php echo $video_id; ?>">
+                                <i class="ti-video-clapper"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -143,40 +157,6 @@ function getContent($pdo, $section_name) {
         </section>
         <!-- END VIDEO -->    
         
-        <!-- START COUNTER -->
-        <section class="counter-area counter_feature section-padding">
-            <div class="container">                                    
-                <div class="section-title text-center">
-                    <h1><?php echo getContent($pdo, 'counter_title'); ?></h1>
-                    <p><?php echo getContent($pdo, 'counter_text'); ?></p>
-                </div>                
-                <div class="row text-center">                                
-                    <div class="col-lg-4 col-sm-4 col-xs-12">
-                        <div class="single-counter">
-                            <span class="ti-check-box"></span>
-                            <h2 class="counter-num"><?php echo getContent($pdo, 'stats_clients'); ?></h2>
-                            <h4>Clients Satisfaits</h4>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-4 col-xs-12">
-                        <div class="single-counter counter-br">
-                            <span class="ti-crown"></span>
-                            <h2 class="counter-num"><?php echo getContent($pdo, 'stats_deliveries'); ?></h2>
-                            <h4>Livraisons Réussies</h4>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-4 col-xs-12">
-                        <div class="single-counter">
-                            <span class="ti-user"></span>
-                            <h2 class="counter-num"><?php echo getContent($pdo, 'stats_experts'); ?></h2>
-                            <h4>Experts en Transport et Douane</h4>
-                        </div>
-                    </div>          
-                </div>
-            </div>
-        </section>
-        <!-- END COUNTER -->
-
         <!-- START WHATSSAP --> 
         <div class="WA_Chat_Widget" data-position="bottom-right">
             <div class="WA_ChatBox">
@@ -244,5 +224,18 @@ function getContent($pdo, $section_name) {
         <script src="assets/js/jquery.stellar.min.js"></script>                
         <!-- scripts js -->
         <script src="assets/js/scripts.js"></script>
+
+        <!-- Add this script before </body> tag -->
+        <script>
+            $(document).ready(function() {
+                $('.popup-youtube').magnificPopup({
+                    type: 'iframe',
+                    mainClass: 'mfp-fade',
+                    removalDelay: 160,
+                    preloader: false,
+                    fixedContentPos: false
+                });
+            });
+        </script>
     </body>
 </html> 
