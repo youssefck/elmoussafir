@@ -2,13 +2,48 @@
 require_once 'config/database.php';
 
 // Function to get content from database
-function getContent($pdo, $page_name, $section_name) {
-    $table_name = $page_name . '_content';
-    $stmt = $pdo->prepare("SELECT content FROM " . $table_name . " WHERE section_name = ?");
-    $stmt->execute([$section_name]);
-    $result = $stmt->fetch();
-    return $result ? $result['content'] : '';
+function getContent($pdo, $page_name, $nom_section) {
+    // Set a timeout for script execution
+    set_time_limit(10); // 10 seconds maximum execution time
+    
+    if (!$pdo) {
+        error_log("Database connection not available in {$page_name}.php");
+        return 'Database connection error';
+    }
+    
+    try {
+        $table_name = $page_name . '_content';
+        
+        // Add timeout to the query
+        $pdo->setAttribute(PDO::ATTR_TIMEOUT, 5);
+        
+        $stmt = $pdo->prepare("SELECT contenu FROM " . $table_name . " WHERE nom_section = ? LIMIT 1");
+        if (!$stmt) {
+            error_log("Failed to prepare statement in {$page_name}.php: " . print_r($pdo->errorInfo(), true));
+            return 'Query preparation error';
+        }
+        
+        $success = $stmt->execute([$nom_section]);
+        if (!$success) {
+            error_log("Failed to execute statement in {$page_name}.php: " . print_r($stmt->errorInfo(), true));
+            return 'Query execution error';
+        }
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        // Clear the statement to free resources
+        $stmt->closeCursor();
+        
+        return $result ? $result['contenu'] : 'Content not found';
+    } catch (PDOException $e) {
+        error_log("Database error in {$page_name}.php: " . $e->getMessage());
+        return 'Database error occurred';
+    }
 }
+
+// Add error reporting at the top of the file
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -17,7 +52,7 @@ function getContent($pdo, $page_name, $section_name) {
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<!-- SITE TITLE -->
-		<title><?php echo getContent($pdo, 'terms', 'page_title'); ?></title>			
+		<title><?php echo getContent($pdo, 'terms', 'titre_page'); ?></title>			
 		<!-- Latest Bootstrap min CSS -->
 		<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">				
 		<!-- Google Font -->	
@@ -51,6 +86,14 @@ function getContent($pdo, $page_name, $section_name) {
 		</div>
 		<!-- END PRELOADER -->		
 
+		<script>
+		// Force hide preloader after 5 seconds maximum
+		setTimeout(function() {
+			document.querySelector('.spinner').style.display = 'none';
+			document.querySelector('.preloader').style.display = 'none';
+		}, 5000);
+		</script>
+
 		<!-- START NAVBAR -->
 		<nav class="navbar navbar-toggleable-sm fixed-top navbar-light bg-faded site-navigation">
 			<div class="container">
@@ -76,7 +119,7 @@ function getContent($pdo, $page_name, $section_name) {
 			<div class="container">
 				<div class="col-lg-12 col-sm-12 col-xs-12">
 					<div class="section-top-title">
-						<h1><?php echo getContent($pdo, 'terms', 'page_title'); ?></h1>
+						<h1><?php echo getContent($pdo, 'terms', 'titre_page'); ?></h1>
 					</div>
 				</div>
 			</div>
@@ -94,17 +137,17 @@ function getContent($pdo, $page_name, $section_name) {
 					</div>
 					<div class="col-lg-6 col-sm-12 col-xs-12">
 						<div class="single_case_studies">
-							<h1><?php echo getContent($pdo, 'terms', 'transport_title'); ?></h1>
-							<p><?php echo getContent($pdo, 'terms', 'transport_text'); ?></p>
+							<h1><?php echo getContent($pdo, 'terms', 'titre_transport'); ?></h1>
+							<p><?php echo getContent($pdo, 'terms', 'texte_transport'); ?></p>
 						</div>
 					</div>
 				</div>											
 				<div class="row case_studies_bg">
 					<div class="col-lg-6 col-sm-12 col-xs-12">
 						<div class="single_case_studies">
-							<h1><?php echo getContent($pdo, 'terms', 'partner_title'); ?></h1>
-							<p><?php echo getContent($pdo, 'terms', 'partner_text1'); ?></p>
-							<p><?php echo getContent($pdo, 'terms', 'partner_text2'); ?></p>
+							<h1><?php echo getContent($pdo, 'terms', 'titre_partenaire'); ?></h1>
+							<p><?php echo getContent($pdo, 'terms', 'texte_partenaire1'); ?></p>
+							<p><?php echo getContent($pdo, 'terms', 'texte_partenaire2'); ?></p>
 						</div>
 					</div>
 					<div class="col-lg-6 col-sm-12 col-xs-12">
@@ -121,18 +164,18 @@ function getContent($pdo, $page_name, $section_name) {
 					</div>
 					<div class="col-lg-6 col-sm-12 col-xs-12">
 						<div class="single_case_studies">
-							<h1><?php echo getContent($pdo, 'terms', 'why_us_title'); ?></h1>
-							<p><?php echo getContent($pdo, 'terms', 'why_us_text1'); ?></p>
-							<p><?php echo getContent($pdo, 'terms', 'why_us_text2'); ?></p>
+							<h1><?php echo getContent($pdo, 'terms', 'titre_pourquoi'); ?></h1>
+							<p><?php echo getContent($pdo, 'terms', 'texte_pourquoi1'); ?></p>
+							<p><?php echo getContent($pdo, 'terms', 'texte_pourquoi2'); ?></p>
 						</div>
 					</div>
 				</div>
 				<div class="row case_studies_bg">
 					<div class="col-lg-6 col-sm-12 col-xs-12">
 						<div class="single_case_studies">
-							<h1><?php echo getContent($pdo, 'terms', 'customs_title'); ?></h1>
-							<p><?php echo getContent($pdo, 'terms', 'customs_text1'); ?></p>
-							<p><?php echo getContent($pdo, 'terms', 'customs_text2'); ?></p>
+							<h1><?php echo getContent($pdo, 'terms', 'titre_douane'); ?></h1>
+							<p><?php echo getContent($pdo, 'terms', 'texte_douane1'); ?></p>
+							<p><?php echo getContent($pdo, 'terms', 'texte_douane2'); ?></p>
 						</div>
 					</div>
 					<div class="col-lg-6 col-sm-12 col-xs-12">
@@ -153,8 +196,8 @@ function getContent($pdo, $page_name, $section_name) {
 						<img src="assets/img/chairman.png" alt="Chat Avatar">
 					</div>
 					<div class="infoBox">
-						<h4 class="name"><?php echo getContent($pdo, 'terms', 'company_name'); ?></h4>
-						<span class="answer_time"><?php echo getContent($pdo, 'terms', 'response_time'); ?></span>
+						<h4 class="name"><?php echo getContent($pdo, 'terms', 'nom_entreprise'); ?></h4>
+						<span class="answer_time"><?php echo getContent($pdo, 'terms', 'temps_reponse'); ?></span>
 					</div>
 					<button class="WA_Close" onclick="hideChatbox()"><svg xmlns="http://www.w3.org/2000/svg" height="1em"
 							viewBox="0 0 512 512">
@@ -165,12 +208,12 @@ function getContent($pdo, $page_name, $section_name) {
 				<div class="WA_ChatBox_Body">
 					<div class="message">
 						<div class="message_content">
-							<p><?php echo getContent($pdo, 'terms', 'whatsapp_message'); ?></p>
+							<p><?php echo getContent($pdo, 'terms', 'message_whatsapp'); ?></p>
 						</div>
 					</div>
 				</div>
 				<div class="WA_ChatBox_Footer">
-					<a class="btn btn-whatsapp" href="http://wa.me/<?php echo getContent($pdo, 'terms', 'whatsapp_number'); ?>" target="_blank">Commencer le chat</a>
+					<a class="btn btn-whatsapp" href="http://wa.me/<?php echo getContent($pdo, 'terms', 'numero_whatsapp'); ?>" target="_blank">Commencer le chat</a>
 				</div>
 			</div>
 			<div class="WA_FloatingButton" onclick="toggleChatbox()">

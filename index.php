@@ -2,12 +2,17 @@
 require_once 'config/database.php';
 
 // Function to get content from database
-function getContent($pdo, $page_name, $section_name) {
-    $table_name = $page_name . '_content';
-    $stmt = $pdo->prepare("SELECT content FROM " . $table_name . " WHERE section_name = ?");
-    $stmt->execute([$section_name]);
-    $result = $stmt->fetch();
-    return $result ? $result['content'] : '';
+function getContent($pdo, $page_name, $nom_section) {
+    try {
+        $table_name = $page_name . '_content';
+        $stmt = $pdo->prepare("SELECT contenu FROM " . $table_name . " WHERE nom_section = ?");
+        $stmt->execute([$nom_section]);
+        $result = $stmt->fetch();
+        return $result ? $result['contenu'] : '';
+    } catch (PDOException $e) {
+        error_log("Database error: " . $e->getMessage());
+        return '';
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -85,25 +90,25 @@ function getContent($pdo, $page_name, $section_name) {
 			  <ul class="slides">
 				<li style="background: url('assets/img/bg/slide1.jpg') no-repeat center center;">
 					<div class="hero-text">
-						 <h1><?php echo getContent($pdo, 'index', 'main_title_line1'); ?> <br /> <?php echo getContent($pdo, 'index', 'main_title_line2'); ?></h1>
+						 <h1><?php echo getContent($pdo, 'index', 'titre_principal_ligne1'); ?> <br /> <?php echo getContent($pdo, 'index', 'titre_principal_ligne2'); ?></h1>
 						 <p class="read_p">
-							<i class="fas fa-truck"></i> <?php echo getContent($pdo, 'index', 'hero_text'); ?>
+							<i class="fas fa-truck"></i> <?php echo getContent($pdo, 'index', 'texte_hero'); ?>
 						  </p>
 					 </div> 
 				</li>			
 				<li style="background: url('assets/img/bg/slide2.jpg') no-repeat center center;">
 					<div class="hero-text">
-						<h1><?php echo getContent($pdo, 'index', 'main_title_line1'); ?> <br /> <?php echo getContent($pdo, 'index', 'main_title_line2'); ?></h1>
+						<h1><?php echo getContent($pdo, 'index', 'titre_principal_ligne1'); ?> <br /> <?php echo getContent($pdo, 'index', 'titre_principal_ligne2'); ?></h1>
 						<p class="read_p">
-						   <i class="fas fa-truck"></i> <?php echo getContent($pdo, 'index', 'hero_text'); ?>
+						   <i class="fas fa-truck"></i> <?php echo getContent($pdo, 'index', 'texte_hero'); ?>
 						 </p>
 					</div>  
 				</li>			
 				<li style="background: url('assets/img/bg/slide3.jpg') no-repeat center center;">
 					<div class="hero-text">
-						<h1><?php echo getContent($pdo, 'index', 'main_title_line1'); ?> <br /> <?php echo getContent($pdo, 'index', 'main_title_line2'); ?></h1>
+						<h1><?php echo getContent($pdo, 'index', 'titre_principal_ligne1'); ?> <br /> <?php echo getContent($pdo, 'index', 'titre_principal_ligne2'); ?></h1>
 						<p class="read_p">
-						   <i class="fas fa-truck"></i> <?php echo getContent($pdo, 'index', 'hero_text'); ?>
+						   <i class="fas fa-truck"></i> <?php echo getContent($pdo, 'index', 'texte_hero'); ?>
 						 </p>
 					</div>  
 				</li>
@@ -119,7 +124,7 @@ function getContent($pdo, $page_name, $section_name) {
 					<div class="col-lg-6 col-sm-12 col-xs-12">
 						<div class="single-about">
 							<h1>Meilleure Agence de Transporteurs</h1>
-							<p><?php echo getContent($pdo, 'index', 'about_text'); ?></p>
+							<p><?php echo getContent($pdo, 'index', 'texte_apropos'); ?></p>
 							<a class="read_btn" href="about.php">En savoir plus</a>
 						</div>
 					</div>
@@ -140,7 +145,7 @@ function getContent($pdo, $page_name, $section_name) {
 					<div class="col-lg-4 col-sm-6 col-xs-12">
 						<div class="single-service-info">
 							<h2>Service que nous offrons</h2>
-							<p><?php echo getContent($pdo, 'index', 'service_intro'); ?></p>
+							<p><?php echo getContent($pdo, 'index', 'intro_service'); ?></p>
 						</div>
 					</div>
 					<div class="col-lg-8 col-sm-6 col-xs-12">
@@ -148,31 +153,31 @@ function getContent($pdo, $page_name, $section_name) {
 							<div class="single-service">
 								<i class="fa fa-cubes"></i>
 								<h4>Stockage des colis</h4>
-								<p><?php echo getContent($pdo, 'index', 'service_storage'); ?></p>
+								<p><?php echo getContent($pdo, 'index', 'service_stockage'); ?></p>
 								<a class="read_btn" href="service.php">En savoir plus</a>
 							</div>
 							<div class="single-service">
 								<i class="fa fa-shipping-fast"></i>
 								<h4>Livraison des colis</h4>
-								<p><?php echo getContent($pdo, 'index', 'service_delivery'); ?></p>
+								<p><?php echo getContent($pdo, 'index', 'service_livraison'); ?></p>
 								<a class="read_btn" href="service.php">En savoir plus</a>
 							</div>
 							<div class="single-service">
 								<i class="fa fa-box-open"></i>
 								<h4>Packaging des colis</h4>
-								<p><?php echo getContent($pdo, 'index', 'service_packaging'); ?></p>
+								<p><?php echo getContent($pdo, 'index', 'service_emballage'); ?></p>
 								<a class="read_btn" href="service.php">En savoir plus</a>
 							</div>
 							<div class="single-service">
 								<i class="fa fa-dolly"></i>
 								<h4>Ramassage</h4>
-								<p><?php echo getContent($pdo, 'index', 'service_pickup'); ?></p>
+								<p><?php echo getContent($pdo, 'index', 'service_ramassage'); ?></p>
 								<a class="read_btn" href="service.php">En savoir plus</a>
 							</div>
 							<div class="single-service">
 								<i class="fa-solid fa-file-contract"></i>
 								<h4>Contract Logistique</h4>
-								<p><?php echo getContent($pdo, 'index', 'service_contract'); ?></p>
+								<p><?php echo getContent($pdo, 'index', 'service_contrat'); ?></p>
 								<a class="read_btn" href="service.php">En savoir plus</a>
 							</div>
 							<div class="single-service">
@@ -193,34 +198,34 @@ function getContent($pdo, $page_name, $section_name) {
 			<div class="container">									
 				<div class="section-title text-center">
 					<h1>Nos Engagements <br /> Conditions et Services</h1>
-					<p><?php echo getContent($pdo, 'index', 'engagement_intro'); ?></p>
+					<p><?php echo getContent($pdo, 'index', 'intro_engagement'); ?></p>
 				</div>				
 				<div class="row text-center">								
 					<div class="col-lg-3 col-sm-6 col-xs-12">
 						<div class="case_feature" style="background-image: url(assets/img/term/case1.jpg);  background-size:cover; background-position: center center;">
 							<h2>Transport <br />France Maroc</h2>
-							<p><?php echo getContent($pdo, 'index', 'transport_text'); ?></p>
+							<p><?php echo getContent($pdo, 'index', 'texte_transport'); ?></p>
 							<a class="read_btn" href="terms.php">En savoir plus</a>
 						</div>
 					</div>					
 					<div class="col-lg-3 col-sm-6 col-xs-12">
 						<div class="case_feature" style="background-image: url(assets/img/term/case2.jpg);  background-size:cover; background-position: center center;">
 							<h2>Partenaire <br />Logistique</h2>
-							<p><?php echo getContent($pdo, 'index', 'partner_text'); ?></p>
+							<p><?php echo getContent($pdo, 'index', 'texte_partenaire'); ?></p>
 							<a class="read_btn" href="terms.php">En savoir plus</a>
 						</div>
 					</div>					
 					<div class="col-lg-3 col-sm-6 col-xs-12">
 						<div class="case_feature" style="background-image: url(assets/img/term/case3.jpg);  background-size:cover; background-position: center center;">
 							<h2>Pourquoi<br />El Moussafir</h2>
-							<p><?php echo getContent($pdo, 'index', 'why_us_text'); ?></p>
+							<p><?php echo getContent($pdo, 'index', 'texte_pourquoi'); ?></p>
 							<a class="read_btn" href="terms.php">En savoir plus</a>
 						</div>
 					</div>					
 					<div class="col-lg-3 col-sm-6 col-xs-12">
 						<div class="case_feature" style="background-image: url(assets/img/term/case4.jpg);  background-size:cover; background-position: center center;">
 							<h2>Contrôle <br />Douanier </h2>
-							<p><?php echo getContent($pdo, 'index', 'customs_text'); ?></p>
+							<p><?php echo getContent($pdo, 'index', 'texte_douane'); ?></p>
 							<a class="read_btn" href="terms.php">En savoir plus</a>
 						</div>
 					</div>		  
@@ -239,20 +244,20 @@ function getContent($pdo, $page_name, $section_name) {
 								<img src="assets/img/Depart.jpg" class="img-fluid" alt="" />
 								<h5>Départ</h5>
 								<h3>MAROC-FRANCE</h3>
-								<p><?php echo getContent($pdo, 'index', 'departure_date'); ?></p>
+								<p><?php echo getContent($pdo, 'index', 'date_depart'); ?></p>
 							</div>
 							<div class="single-advisor">
 								<img src="assets/img/Arrive.jpg" class="img-fluid" alt="" />
 								<h5>Arrive</h5>
 								<h3>FRANCE-MAROC</h3>
-								<p><?php echo getContent($pdo, 'index', 'arrival_date'); ?></p>
+								<p><?php echo getContent($pdo, 'index', 'date_arrivee'); ?></p>
 							</div>
 						</div>		  
 					</div>
 					<div class="col-lg-4 col-sm-6 col-xs-12">
 						<div class="single-advisor-info">
 							<h2>Détails des <br/>Départs</h2>
-							<p><?php echo getContent($pdo, 'index', 'departure_info'); ?></p>
+							<p><?php echo getContent($pdo, 'index', 'info_depart'); ?></p>
 						</div>
 					</div>					
 				</div>
@@ -265,7 +270,7 @@ function getContent($pdo, $page_name, $section_name) {
 			<div class="container">									
 				<div class="section-title text-center">
 					<h1>Avis des Clients</h1>
-					<p><?php echo getContent($pdo, 'index', 'testimonial_intro'); ?></p>
+					<p><?php echo getContent($pdo, 'index', 'intro_temoignages'); ?></p>
 				</div>				
 				<div class="row">								
 					<div class="col-lg-12 col-sm-12 col-xs-12">
@@ -281,7 +286,7 @@ function getContent($pdo, $page_name, $section_name) {
 							<i class="fa fa-star"></i>
 							<i class="fa fa-star"></i>
 							<i class="fa fa-star"></i> 
-							<p><?php echo getContent($pdo, 'index', 'testimonial_1'); ?></p>
+							<p><?php echo getContent($pdo, 'index', 'temoignage1'); ?></p>
 						</div>
 						<div class="single_testimonial">
 							<div class="testi_img">
@@ -294,7 +299,7 @@ function getContent($pdo, $page_name, $section_name) {
 							<i class="fa fa-star"></i>
 							<i class="fa fa-star"></i>
 							<i class="fa fa-star"></i>
-							<p><?php echo getContent($pdo, 'index', 'testimonial_2'); ?></p>
+							<p><?php echo getContent($pdo, 'index', 'temoignage2'); ?></p>
 						</div>
 						<div class="single_testimonial">
 							<div class="testi_img">
@@ -307,7 +312,7 @@ function getContent($pdo, $page_name, $section_name) {
 							<i class="fa fa-star"></i>
 							<i class="fa fa-star"></i>
 							<i class="fa fa-star"></i>
-							<p><?php echo getContent($pdo, 'index', 'testimonial_3'); ?></p>
+							<p><?php echo getContent($pdo, 'index', 'temoignage3'); ?></p>
 						</div>
 						<div class="single_testimonial">
 							<div class="testi_img">
@@ -320,7 +325,7 @@ function getContent($pdo, $page_name, $section_name) {
 							<i class="fa fa-star"></i>
 							<i class="fa fa-star"></i>
 							<i class="fa fa-star"></i>
-							<p><?php echo getContent($pdo, 'index', 'testimonial_4'); ?></p>
+							<p><?php echo getContent($pdo, 'index', 'temoignage4'); ?></p>
 						</div>
 					</div>
 					</div>		  
@@ -334,7 +339,7 @@ function getContent($pdo, $page_name, $section_name) {
 			<div class="container">									
 				<div class="section-title text-center">
 					<h1>Chiffres Clés</h1>
-					<p><?php echo getContent($pdo, 'index', 'counter_intro'); ?></p>
+					<p><?php echo getContent($pdo, 'index', 'intro_compteur'); ?></p>
 				</div>				
 				<div class="row text-center">								
 					<div class="col-lg-4 col-sm-4 col-xs-12">
@@ -347,7 +352,7 @@ function getContent($pdo, $page_name, $section_name) {
 					<div class="col-lg-4 col-sm-4 col-xs-12">
 						<div class="single-counter counter-br">
 							<span class="ti-crown"></span>
-							<h2 class="counter-num"><?php echo getContent($pdo, 'index', 'stats_deliveries'); ?></h2>
+							<h2 class="counter-num"><?php echo getContent($pdo, 'index', 'stats_livraisons'); ?></h2>
 							<h4>Livraisons Réussies</h4>
 						</div>
 					</div>
@@ -371,8 +376,8 @@ function getContent($pdo, $page_name, $section_name) {
 						<img src="assets/img/chairman.png" alt="Chat Avatar">
 					</div>
 					<div class="infoBox">
-						<h4 class="name"><?php echo getContent($pdo, 'index', 'company_name'); ?></h4>
-						<span class="answer_time"><?php echo getContent($pdo, 'index', 'response_time'); ?></span>
+						<h4 class="name"><?php echo getContent($pdo, 'index', 'nom_entreprise'); ?></h4>
+						<span class="answer_time"><?php echo getContent($pdo, 'index', 'temps_reponse'); ?></span>
 					</div>
 					<button class="WA_Close" onclick="hideChatbox()"><svg xmlns="http://www.w3.org/2000/svg" height="1em"
 							viewBox="0 0 512 512">
@@ -383,12 +388,12 @@ function getContent($pdo, $page_name, $section_name) {
 				<div class="WA_ChatBox_Body">
 					<div class="message">
 						<div class="message_content">
-							<p><?php echo getContent($pdo, 'index', 'whatsapp_message'); ?></p>
+							<p><?php echo getContent($pdo, 'index', 'message_whatsapp'); ?></p>
 						</div>
 					</div>
 				</div>
 				<div class="WA_ChatBox_Footer">
-					<a class="btn btn-whatsapp" href="http://wa.me/<?php echo getContent($pdo, 'index', 'whatsapp_number'); ?>" target="_blank">Commencer le chat</a>
+					<a class="btn btn-whatsapp" href="http://wa.me/<?php echo getContent($pdo, 'index', 'numero_whatsapp'); ?>" target="_blank">Commencer le chat</a>
 				</div>
 			</div>
 			<div class="WA_FloatingButton" onclick="toggleChatbox()">
@@ -409,14 +414,14 @@ function getContent($pdo, $page_name, $section_name) {
 							<h4>Adresse de Nos Bureaux</h4>
 							<div class="single_address">
 								<h5>Maroc</h5>
-								<p><?php echo getContent($pdo, 'index', 'address_morocco'); ?></p>
-								<p><?php echo getContent($pdo, 'index', 'phone_morocco'); ?></p>
+								<p><?php echo getContent($pdo, 'index', 'adresse_maroc'); ?></p>
+								<p><?php echo getContent($pdo, 'index', 'telephone_maroc'); ?></p>
 								<p><?php echo getContent($pdo, 'index', 'email'); ?></p>
 							</div>
 							<div class="single_address">
 								<h5>France</h5>
-								<p><?php echo getContent($pdo, 'index', 'address_france'); ?></p>
-								<p><?php echo getContent($pdo, 'index', 'phone_france'); ?></p>
+								<p><?php echo getContent($pdo, 'index', 'adresse_france'); ?></p>
+								<p><?php echo getContent($pdo, 'index', 'telephone_france'); ?></p>
 								<p><?php echo getContent($pdo, 'index', 'email'); ?></p>
 							</div>
 						</div>

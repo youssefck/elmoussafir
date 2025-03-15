@@ -2,12 +2,48 @@
 require_once 'config/database.php';
 
 // Function to get content from database
-function getContent($pdo, $section_name) {
-    $stmt = $pdo->prepare("SELECT content FROM contact_content WHERE section_name = ?");
-    $stmt->execute([$section_name]);
-    $result = $stmt->fetch();
-    return $result ? $result['content'] : '';
+function getContent($pdo, $page_name, $nom_section) {
+    // Set a timeout for script execution
+    set_time_limit(10); // 10 seconds maximum execution time
+    
+    if (!$pdo) {
+        error_log("Database connection not available in {$page_name}.php");
+        return 'Database connection error';
+    }
+    
+    try {
+        $table_name = $page_name . '_content';
+        
+        // Add timeout to the query
+        $pdo->setAttribute(PDO::ATTR_TIMEOUT, 5);
+        
+        $stmt = $pdo->prepare("SELECT contenu FROM " . $table_name . " WHERE nom_section = ? LIMIT 1");
+        if (!$stmt) {
+            error_log("Failed to prepare statement in {$page_name}.php: " . print_r($pdo->errorInfo(), true));
+            return 'Query preparation error';
+        }
+        
+        $success = $stmt->execute([$nom_section]);
+        if (!$success) {
+            error_log("Failed to execute statement in {$page_name}.php: " . print_r($stmt->errorInfo(), true));
+            return 'Query execution error';
+        }
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        // Clear the statement to free resources
+        $stmt->closeCursor();
+        
+        return $result ? $result['contenu'] : 'Content not found';
+    } catch (PDOException $e) {
+        error_log("Database error in {$page_name}.php: " . $e->getMessage());
+        return 'Database error occurred';
+    }
 }
+
+// Add error reporting at the top of the file
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -16,7 +52,7 @@ function getContent($pdo, $section_name) {
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <!-- SITE TITLE -->
-        <title><?php echo getContent($pdo, 'page_title'); ?></title>            
+        <title><?php echo getContent($pdo, 'contact', 'titre_page'); ?></title>            
         <!-- Latest Bootstrap min CSS -->
         <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">             
         <!-- Google Font -->    
@@ -50,6 +86,14 @@ function getContent($pdo, $section_name) {
         </div>
         <!-- END PRELOADER -->        
 
+        <script>
+        // Force hide preloader after 5 seconds maximum
+        setTimeout(function() {
+            document.querySelector('.spinner').style.display = 'none';
+            document.querySelector('.preloader').style.display = 'none';
+        }, 5000);
+        </script>
+
         <!-- START NAVBAR -->
         <nav class="navbar navbar-toggleable-sm fixed-top navbar-light bg-faded site-navigation">
             <div class="container">
@@ -75,7 +119,7 @@ function getContent($pdo, $section_name) {
             <div class="container">
                 <div class="col-lg-12 col-sm-12 col-xs-12">
                     <div class="section-top-title">
-                        <h1><?php echo getContent($pdo, 'page_title'); ?></h1>
+                        <h1><?php echo getContent($pdo, 'contact', 'titre_page'); ?></h1>
                     </div>
                 </div>
             </div>
@@ -113,17 +157,17 @@ function getContent($pdo, $section_name) {
                     <div class="col-lg-5">
                         <div class="address-bg" style="background-image: url(assets/img/term/case1.jpg);  background-size:cover; background-position: center center;">
                             <div class="get-in-touch">
-                                <h1><?php echo getContent($pdo, 'form_title'); ?></h1>
-                                <p><?php echo getContent($pdo, 'contact_intro'); ?></p>
+                                <h1><?php echo getContent($pdo, 'contact', 'titre_formulaire'); ?></h1>
+                                <p><?php echo getContent($pdo, 'contact', 'intro_contact'); ?></p>
                             </div>
                             <div class="social_profile">
-                                <h4><?php echo getContent($pdo, 'social_title'); ?></h4>
+                                <h4><?php echo getContent($pdo, 'contact', 'titre_reseaux_sociaux'); ?></h4>
                                 <ul>
-                                    <li><a href="<?php echo getContent($pdo, 'facebook_url'); ?>" class="f_facebook"><i class="fa fa-facebook"></i></a></li>
-                                    <li><a href="<?php echo getContent($pdo, 'twitter_url'); ?>" class="f_twitter"><i class="fa fa-twitter"></i></a></li>
-                                    <li><a href="<?php echo getContent($pdo, 'instagram_url'); ?>" class="f_instagram"><i class="fa fa-instagram"></i></a></li>
-                                    <li><a href="<?php echo getContent($pdo, 'linkedin_url'); ?>" class="f_linkedin"><i class="fa fa-linkedin"></i></a></li>
-                                    <li><a href="<?php echo getContent($pdo, 'skype_url'); ?>" class="f_skype"><i class="fa fa-skype"></i></a></li>
+                                    <li><a href="<?php echo getContent($pdo, 'contact', 'lien_facebook'); ?>" class="f_facebook"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="<?php echo getContent($pdo, 'contact', 'lien_twitter'); ?>" class="f_twitter"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="<?php echo getContent($pdo, 'contact', 'lien_instagram'); ?>" class="f_instagram"><i class="fa fa-instagram"></i></a></li>
+                                    <li><a href="<?php echo getContent($pdo, 'contact', 'lien_linkedin'); ?>" class="f_linkedin"><i class="fa fa-linkedin"></i></a></li>
+                                    <li><a href="<?php echo getContent($pdo, 'contact', 'lien_skype'); ?>" class="f_skype"><i class="fa fa-skype"></i></a></li>
                                 </ul>                                
                             </div>                    
                         </div>                    
@@ -141,8 +185,8 @@ function getContent($pdo, $section_name) {
                         <img src="assets/img/chairman.png" alt="Chat Avatar">
                     </div>
                     <div class="infoBox">
-                        <h4 class="name"><?php echo getContent($pdo, 'company_name'); ?></h4>
-                        <span class="answer_time"><?php echo getContent($pdo, 'response_time'); ?></span>
+                        <h4 class="name"><?php echo getContent($pdo, 'contact', 'nom_entreprise'); ?></h4>
+                        <span class="answer_time"><?php echo getContent($pdo, 'contact', 'temps_reponse'); ?></span>
                     </div>
                     <button class="WA_Close" onclick="hideChatbox()"><svg xmlns="http://www.w3.org/2000/svg" height="1em"
                             viewBox="0 0 512 512">
@@ -153,12 +197,12 @@ function getContent($pdo, $section_name) {
                 <div class="WA_ChatBox_Body">
                     <div class="message">
                         <div class="message_content">
-                            <p><?php echo getContent($pdo, 'whatsapp_message'); ?></p>
+                            <p><?php echo getContent($pdo, 'contact', 'message_whatsapp'); ?></p>
                         </div>
                     </div>
                 </div>
                 <div class="WA_ChatBox_Footer">
-                    <a class="btn btn-whatsapp" href="http://wa.me/<?php echo getContent($pdo, 'whatsapp_number'); ?>" target="_blank">Commencer le chat</a>
+                    <a class="btn btn-whatsapp" href="http://wa.me/<?php echo getContent($pdo, 'contact', 'numero_whatsapp'); ?>" target="_blank">Commencer le chat</a>
                 </div>
             </div>
             <div class="WA_FloatingButton" onclick="toggleChatbox()">

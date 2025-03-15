@@ -2,11 +2,17 @@
 require_once 'config/database.php';
 
 // Function to get content from database
-function getContent($pdo, $section_name) {
-    $stmt = $pdo->prepare("SELECT content FROM about_content WHERE section_name = ?");
-    $stmt->execute([$section_name]);
-    $result = $stmt->fetch();
-    return $result ? $result['content'] : '';
+function getContent($pdo, $page_name, $nom_section) {
+    try {
+        $table_name = $page_name . '_content';
+        $stmt = $pdo->prepare("SELECT contenu FROM " . $table_name . " WHERE nom_section = ?");
+        $stmt->execute([$nom_section]);
+        $result = $stmt->fetch();
+        return $result ? $result['contenu'] : '';
+    } catch (PDOException $e) {
+        error_log("Database error: " . $e->getMessage());
+        return '';
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -16,7 +22,7 @@ function getContent($pdo, $section_name) {
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <!-- SITE TITLE -->
-        <title><?php echo getContent($pdo, 'page_title'); ?></title>            
+        <title><?php echo getContent($pdo, 'about', 'titre_page'); ?></title>            
         <!-- Latest Bootstrap min CSS -->
         <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">             
         <!-- Google Font -->    
@@ -75,7 +81,7 @@ function getContent($pdo, $section_name) {
             <div class="container">
                 <div class="col-lg-12 col-sm-12 col-xs-12">
                     <div class="section-top-title">
-                        <h1><?php echo getContent($pdo, 'page_title'); ?></h1>
+                        <h1><?php echo getContent($pdo, 'about', 'titre_page'); ?></h1>
                     </div>
                 </div>
             </div>
@@ -88,8 +94,8 @@ function getContent($pdo, $section_name) {
                 <div class="row">                                
                     <div class="col-lg-7 col-sm-4 col-xs-12">
                         <div class="content-history">
-                            <h1><?php echo getContent($pdo, 'why_title'); ?></h1>
-                            <p><?php echo getContent($pdo, 'why_text'); ?></p>                    
+                            <h1><?php echo getContent($pdo, 'about', 'titre_pourquoi'); ?></h1>
+                            <p><?php echo getContent($pdo, 'about', 'texte_pourquoi'); ?></p>                    
                         </div>                            
                     </div>
                     <div class="col-lg-4 col-sm-4">
@@ -113,11 +119,11 @@ function getContent($pdo, $section_name) {
                     </div>
                     <div class="col-lg-6 col-sm-6 col-xs-12">
                         <div class="content-about">
-                            <h4><?php echo getContent($pdo, 'chairman_name'); ?></h4>
-                            <h5><?php echo getContent($pdo, 'chairman_title'); ?></h5>
-                            <p><?php echo getContent($pdo, 'chairman_text1'); ?></p>                            
-                            <p><?php echo getContent($pdo, 'chairman_text2'); ?></p>
-                            <p><?php echo getContent($pdo, 'chairman_text3'); ?></p>
+                            <h4><?php echo getContent($pdo, 'about', 'nom_president'); ?></h4>
+                            <h5><?php echo getContent($pdo, 'about', 'titre_president'); ?></h5>
+                            <p><?php echo getContent($pdo, 'about', 'texte_president1'); ?></p>                            
+                            <p><?php echo getContent($pdo, 'about', 'texte_president2'); ?></p>
+                            <p><?php echo getContent($pdo, 'about', 'texte_president3'); ?></p>
                             
                             <img src="assets/img/signature.png" class="img-fluid" alt="" />
                         </div>                    
@@ -133,17 +139,17 @@ function getContent($pdo, $section_name) {
                 <div class="row text-center">
                     <div class="col-lg-12">
                         <div class="our_video">
-                            <h1><?php echo getContent($pdo, 'video_title'); ?></h1>
-                            <p><?php echo getContent($pdo, 'video_text'); ?></p>
+                            <h1><?php echo getContent($pdo, 'about', 'titre_video'); ?></h1>
+                            <p><?php echo getContent($pdo, 'about', 'texte_video'); ?></p>
                             <?php 
-                            $video_link = getContent($pdo, 'video_link');
+                            $lien_video = getContent($pdo, 'about', 'lien_video');
                             // Extract video ID from URL
                             $video_id = '';
-                            if (preg_match('/[?&]v=([^&]+)/', $video_link, $matches)) {
+                            if (preg_match('/[?&]v=([^&]+)/', $lien_video, $matches)) {
                                 $video_id = $matches[1];
-                            } elseif (preg_match('/embed\/([^\/\?]+)/', $video_link, $matches)) {
+                            } elseif (preg_match('/embed\/([^\/\?]+)/', $lien_video, $matches)) {
                                 $video_id = $matches[1];
-                            } elseif (preg_match('/youtu\.be\/([^\/\?]+)/', $video_link, $matches)) {
+                            } elseif (preg_match('/youtu\.be\/([^\/\?]+)/', $lien_video, $matches)) {
                                 $video_id = $matches[1];
                             }
                             ?>
@@ -165,8 +171,8 @@ function getContent($pdo, $section_name) {
                         <img src="assets/img/chairman.png" alt="Chat Avatar">
                     </div>
                     <div class="infoBox">
-                        <h4 class="name"><?php echo getContent($pdo, 'company_name'); ?></h4>
-                        <span class="answer_time"><?php echo getContent($pdo, 'response_time'); ?></span>
+                        <h4 class="name"><?php echo getContent($pdo, 'about', 'nom_entreprise'); ?></h4>
+                        <span class="answer_time"><?php echo getContent($pdo, 'about', 'temps_reponse'); ?></span>
                     </div>
                     <button class="WA_Close" onclick="hideChatbox()"><svg xmlns="http://www.w3.org/2000/svg" height="1em"
                             viewBox="0 0 512 512">
@@ -177,12 +183,12 @@ function getContent($pdo, $section_name) {
                 <div class="WA_ChatBox_Body">
                     <div class="message">
                         <div class="message_content">
-                            <p><?php echo getContent($pdo, 'whatsapp_message'); ?></p>
+                            <p><?php echo getContent($pdo, 'about', 'message_whatsapp'); ?></p>
                         </div>
                     </div>
                 </div>
                 <div class="WA_ChatBox_Footer">
-                    <a class="btn btn-whatsapp" href="http://wa.me/<?php echo getContent($pdo, 'whatsapp_number'); ?>" target="_blank">Commencer le chat</a>
+                    <a class="btn btn-whatsapp" href="http://wa.me/<?php echo getContent($pdo, 'about', 'numero_whatsapp'); ?>" target="_blank">Commencer le chat</a>
                 </div>
             </div>
             <div class="WA_FloatingButton" onclick="toggleChatbox()">

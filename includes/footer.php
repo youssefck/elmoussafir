@@ -1,11 +1,11 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
 
-function getFooterContent($pdo, $section_name) {
-    $stmt = $pdo->prepare("SELECT content FROM index_content WHERE section_name = ?");
-    $stmt->execute([$section_name]);
+function getFooterContent($pdo, $nom_section) {
+    $stmt = $pdo->prepare("SELECT contenu FROM index_content WHERE nom_section = ?");
+    $stmt->execute([$nom_section]);
     $result = $stmt->fetch();
-    return $result ? $result['content'] : '';
+    return $result ? $result['contenu'] : '';
 }
 ?>
 <div class="footer-area section-padding" style="background-image: url(assets/img/bg/footer-bg.jpg); background-size:cover; background-position:center; background-attachment: fixed;">
@@ -16,14 +16,14 @@ function getFooterContent($pdo, $section_name) {
                     <h4>Adresse de Nos Bureaux</h4>
                     <div class="single_address">
                         <h5>Maroc</h5>
-                        <p><?php echo getFooterContent($pdo, 'address_morocco'); ?></p>
-                        <p><?php echo getFooterContent($pdo, 'phone_morocco'); ?></p>
+                        <p><?php echo getFooterContent($pdo, 'adresse_maroc'); ?></p>
+                        <p><?php echo getFooterContent($pdo, 'telephone_maroc'); ?></p>
                         <p><?php echo getFooterContent($pdo, 'email'); ?></p>
                     </div>
                     <div class="single_address">
                         <h5>France</h5>
-                        <p><?php echo getFooterContent($pdo, 'address_france'); ?></p>
-                        <p><?php echo getFooterContent($pdo, 'phone_france'); ?></p>
+                        <p><?php echo getFooterContent($pdo, 'adresse_france'); ?></p>
+                        <p><?php echo getFooterContent($pdo, 'telephone_france'); ?></p>
                         <p><?php echo getFooterContent($pdo, 'email'); ?></p>
                     </div>
                 </div>

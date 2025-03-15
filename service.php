@@ -2,12 +2,48 @@
 require_once 'config/database.php';
 
 // Function to get content from database
-function getContent($pdo, $section_name) {
-    $stmt = $pdo->prepare("SELECT content FROM service_content WHERE section_name = ?");
-    $stmt->execute([$section_name]);
-    $result = $stmt->fetch();
-    return $result ? $result['content'] : '';
+function getContent($pdo, $page_name, $nom_section) {
+    // Set a timeout for script execution
+    set_time_limit(10); // 10 seconds maximum execution time
+    
+    if (!$pdo) {
+        error_log("Database connection not available in {$page_name}.php");
+        return 'Database connection error';
+    }
+    
+    try {
+        $table_name = $page_name . '_content';
+        
+        // Add timeout to the query
+        $pdo->setAttribute(PDO::ATTR_TIMEOUT, 5);
+        
+        $stmt = $pdo->prepare("SELECT contenu FROM " . $table_name . " WHERE nom_section = ? LIMIT 1");
+        if (!$stmt) {
+            error_log("Failed to prepare statement in {$page_name}.php: " . print_r($pdo->errorInfo(), true));
+            return 'Query preparation error';
+        }
+        
+        $success = $stmt->execute([$nom_section]);
+        if (!$success) {
+            error_log("Failed to execute statement in {$page_name}.php: " . print_r($stmt->errorInfo(), true));
+            return 'Query execution error';
+        }
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        // Clear the statement to free resources
+        $stmt->closeCursor();
+        
+        return $result ? $result['contenu'] : 'Content not found';
+    } catch (PDOException $e) {
+        error_log("Database error in {$page_name}.php: " . $e->getMessage());
+        return 'Database error occurred';
+    }
 }
+
+// Add error reporting at the top of the file
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -16,7 +52,7 @@ function getContent($pdo, $section_name) {
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <!-- SITE TITLE -->
-        <title><?php echo getContent($pdo, 'page_title'); ?></title>            
+        <title><?php echo getContent($pdo, 'service', 'titre_page'); ?></title>            
         <!-- Latest Bootstrap min CSS -->
         <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">             
         <!-- Google Font -->    
@@ -51,6 +87,14 @@ function getContent($pdo, $section_name) {
         </div>
         <!-- END PRELOADER -->        
 
+        <script>
+        // Force hide preloader after 5 seconds maximum
+        setTimeout(function() {
+            document.querySelector('.spinner').style.display = 'none';
+            document.querySelector('.preloader').style.display = 'none';
+        }, 5000);
+        </script>
+
         <!-- START NAVBAR -->
         <nav class="navbar navbar-toggleable-sm fixed-top navbar-light bg-faded site-navigation">
             <div class="container">
@@ -76,7 +120,7 @@ function getContent($pdo, $section_name) {
             <div class="container">
                 <div class="col-lg-12 col-sm-12 col-xs-12">
                     <div class="section-top-title">
-                        <h1><?php echo getContent($pdo, 'page_title'); ?></h1>
+                        <h1><?php echo getContent($pdo, 'service', 'titre_page'); ?></h1>
                     </div>
                 </div>
             </div>
@@ -89,12 +133,12 @@ function getContent($pdo, $section_name) {
                 <div class="row">                                
                     <div class="col-lg-6 col-sm-6 col-xs-12">
                         <div class="page-service-content">
-                            <h1><?php echo getContent($pdo, 'service1_title'); ?></h1>
-                            <p><?php echo getContent($pdo, 'service1_details'); ?></p>
+                            <h1><?php echo getContent($pdo, 'service', 'titre_service1'); ?></h1>
+                            <p><?php echo getContent($pdo, 'service', 'details_service1'); ?></p>
                             <ul>
-                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service1_point1'); ?></li>
-                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service1_point2'); ?></li>
-                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service1_point3'); ?></li>
+                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service', 'point1_service1'); ?></li>
+                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service', 'point2_service1'); ?></li>
+                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service', 'point3_service1'); ?></li>
                             </ul>                        
                         </div>
                     </div>                        
@@ -112,12 +156,12 @@ function getContent($pdo, $section_name) {
                     </div>    
                     <div class="col-lg-6 col-sm-6 col-xs-12">
                         <div class="page-service-content pleft">
-                            <h1><?php echo getContent($pdo, 'service2_title'); ?></h1>
-                            <p><?php echo getContent($pdo, 'service2_details'); ?></p>
+                            <h1><?php echo getContent($pdo, 'service', 'titre_service2'); ?></h1>
+                            <p><?php echo getContent($pdo, 'service', 'details_service2'); ?></p>
                             <ul>
-                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service2_point1'); ?></li>
-                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service2_point2'); ?></li>
-                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service2_point3'); ?></li>
+                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service', 'point1_service2'); ?></li>
+                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service', 'point2_service2'); ?></li>
+                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service', 'point3_service2'); ?></li>
                             </ul>                        
                         </div>
                     </div>                        
@@ -125,12 +169,12 @@ function getContent($pdo, $section_name) {
                 <div class="row">                                
                     <div class="col-lg-6 col-sm-6 col-xs-12">
                         <div class="page-service-content">
-                            <h1><?php echo getContent($pdo, 'service3_title'); ?></h1>
-                            <p><?php echo getContent($pdo, 'service3_details'); ?></p>
+                            <h1><?php echo getContent($pdo, 'service', 'titre_service3'); ?></h1>
+                            <p><?php echo getContent($pdo, 'service', 'details_service3'); ?></p>
                             <ul>
-                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service3_point1'); ?></li>
-                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service3_point2'); ?></li>
-                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service3_point3'); ?></li>
+                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service', 'point1_service3'); ?></li>
+                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service', 'point2_service3'); ?></li>
+                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service', 'point3_service3'); ?></li>
                             </ul>                        
                         </div>
                     </div>                        
@@ -148,12 +192,12 @@ function getContent($pdo, $section_name) {
                     </div>    
                     <div class="col-lg-6 col-sm-6 col-xs-12">
                         <div class="page-service-content pleft">
-                            <h1><?php echo getContent($pdo, 'service4_title'); ?></h1>
-                            <p><?php echo getContent($pdo, 'service4_details'); ?></p>
+                            <h1><?php echo getContent($pdo, 'service', 'titre_service4'); ?></h1>
+                            <p><?php echo getContent($pdo, 'service', 'details_service4'); ?></p>
                             <ul>
-                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service4_point1'); ?></li>
-                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service4_point2'); ?></li>
-                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service4_point3'); ?></li>
+                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service', 'point1_service4'); ?></li>
+                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service', 'point2_service4'); ?></li>
+                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service', 'point3_service4'); ?></li>
                             </ul>                        
                         </div>
                     </div>                        
@@ -161,12 +205,12 @@ function getContent($pdo, $section_name) {
                 <div class="row">                                
                     <div class="col-lg-6 col-sm-6 col-xs-12">
                         <div class="page-service-content">
-                            <h1><?php echo getContent($pdo, 'service5_title'); ?></h1>
-                            <p><?php echo getContent($pdo, 'service5_details'); ?></p>
+                            <h1><?php echo getContent($pdo, 'service', 'titre_service5'); ?></h1>
+                            <p><?php echo getContent($pdo, 'service', 'details_service5'); ?></p>
                             <ul>
-                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service5_point1'); ?></li>
-                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service5_point2'); ?></li>
-                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service5_point3'); ?></li>
+                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service', 'point1_service5'); ?></li>
+                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service', 'point2_service5'); ?></li>
+                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service', 'point3_service5'); ?></li>
                             </ul>                        
                         </div>
                     </div>                        
@@ -184,12 +228,12 @@ function getContent($pdo, $section_name) {
                     </div>    
                     <div class="col-lg-6 col-sm-6 col-xs-12">
                         <div class="page-service-content pleft">
-                            <h1><?php echo getContent($pdo, 'service6_title'); ?></h1>
-                            <p><?php echo getContent($pdo, 'service6_details'); ?></p>
+                            <h1><?php echo getContent($pdo, 'service', 'titre_service6'); ?></h1>
+                            <p><?php echo getContent($pdo, 'service', 'details_service6'); ?></p>
                             <ul>
-                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service6_point1'); ?></li>
-                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service6_point2'); ?></li>
-                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service6_point3'); ?></li>
+                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service', 'point1_service6'); ?></li>
+                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service', 'point2_service6'); ?></li>
+                                <li><i class="fa fa-check"></i> <?php echo getContent($pdo, 'service', 'point3_service6'); ?></li>
                             </ul>                        
                         </div>
                     </div>                        
@@ -206,8 +250,8 @@ function getContent($pdo, $section_name) {
                         <img src="assets/img/chairman.png" alt="Chat Avatar">
                     </div>
                     <div class="infoBox">
-                        <h4 class="name"><?php echo getContent($pdo, 'company_name'); ?></h4>
-                        <span class="answer_time"><?php echo getContent($pdo, 'response_time'); ?></span>
+                        <h4 class="name"><?php echo getContent($pdo, 'service', 'nom_entreprise'); ?></h4>
+                        <span class="answer_time"><?php echo getContent($pdo, 'service', 'temps_reponse'); ?></span>
                     </div>
                     <button class="WA_Close" onclick="hideChatbox()"><svg xmlns="http://www.w3.org/2000/svg" height="1em"
                             viewBox="0 0 512 512">
@@ -218,12 +262,12 @@ function getContent($pdo, $section_name) {
                 <div class="WA_ChatBox_Body">
                     <div class="message">
                         <div class="message_content">
-                            <p><?php echo getContent($pdo, 'whatsapp_message'); ?></p>
+                            <p><?php echo getContent($pdo, 'service', 'message_whatsapp'); ?></p>
                         </div>
                     </div>
                 </div>
                 <div class="WA_ChatBox_Footer">
-                    <a class="btn btn-whatsapp" href="http://wa.me/<?php echo getContent($pdo, 'whatsapp_number'); ?>" target="_blank">Commencer le chat</a>
+                    <a class="btn btn-whatsapp" href="http://wa.me/<?php echo getContent($pdo, 'service', 'numero_whatsapp'); ?>" target="_blank">Commencer le chat</a>
                 </div>
             </div>
             <div class="WA_FloatingButton" onclick="toggleChatbox()">

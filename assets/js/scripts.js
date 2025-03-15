@@ -16,18 +16,15 @@ Version      : 1.0
 		/*END PRELOADER JS*/		
 		
 		/*START MENU JS*/		
-			 if ($(window).scrollTop() > 200) {
-              $('.fixed-top').addClass('menu-bg');
-          } else {
-              $('.fixed-top').removeClass('menu-bg');
-          }
-			$(window).on('scroll', function(){
-				if ( $(window).scrollTop() > 100 ) {
-					$('.site-navigation, .header-white, .header').addClass('navbar-fixed');
-				} else {
-					$('.site-navigation, .header-white, .header').removeClass('navbar-fixed');
-				}
-			});		  	
+		$(window).on('scroll', function(){
+			if ($(window).scrollTop() > 100) {
+				$('.fixed-top').addClass('menu-bg');
+				$('.site-navigation, .header-white, .header').addClass('navbar-fixed');
+			} else {
+				$('.fixed-top').removeClass('menu-bg');
+				$('.site-navigation, .header-white, .header').removeClass('navbar-fixed');
+			}
+		});		  	
 		/*END MENU JS*/	
 
 		/*START HOME SLIDER JS*/	

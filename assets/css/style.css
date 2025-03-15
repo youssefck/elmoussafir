@@ -1,4 +1,3 @@
-
 /*
 Author       : Creativeguys
 Template Name: Consult - Consultation Firm HTML Template
@@ -238,22 +237,68 @@ width:45px;
     }
 }
 
-.WA_Chat_Widget .WA_FloatingButton {
+.WA_Chat_Widget {
     position: fixed;
-    width: 70px;
-    height: 70px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 10px 0px rgba(0, 0, 0, 0.185);
-    border-radius: 50%;
-    background: #fff;
-    cursor: pointer;
-    z-index: 1050; /* Adjust this to move vertically */
-    left: 10px; /* Adjust this to move horizontally */
-	animation: bounce 1s ease-in-out infinite;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
 }
 
+.WA_FloatingButton {
+    width: 60px;
+    height: 60px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.WA_ChatBox {
+    display: none;
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    width: 300px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.WA_ChatBox_Header {
+    padding: 15px;
+    background: #075E54;
+    color: #fff;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    align-items: center;
+}
+
+.WA_ChatBox_Body {
+    padding: 15px;
+}
+
+.WA_ChatBox_Footer {
+    padding: 15px;
+    border-top: 1px solid #eee;
+}
+
+.btn-whatsapp {
+    background: #25D366;
+    color: #fff;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn-whatsapp:hover {
+    background: #128C7E;
+    color: #fff;
+}
 
 .WA_Chat_Widget .WA_FloatingButton svg {
     width: 40px;
@@ -303,20 +348,6 @@ width:45px;
     transform: translateX(-50%);
 }
 
-.WA_Chat_Widget .WA_ChatBox {
-    position: fixed;
-    width: 360px;
-    height: auto;
-    overflow: hidden;
-    border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 5px 25px 0px rgba(0, 0, 0, 0.1);
-    display: none;
-    z-index: 1050; 
-	left: 20px;
-}
-
-/* Header styles */
 .WA_Chat_Widget .WA_ChatBox .WA_ChatBox_Header {
     width: auto;
     background: #1e8452;
