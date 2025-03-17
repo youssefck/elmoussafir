@@ -277,9 +277,9 @@ function getContent($pdo, $page_name, $nom_section) {
 					<div id="testimonial-slider" class="owl-carousel">
 						<div class="single_testimonial">
 							<div class="testi_img">
-								<img src="assets/img/testimonial/1.jpg" class="img-fluid" alt="" />
-								<h3>Hassan</h3> 
-								<h5>2024-02-11</h5>
+								<img src="assets/img/humain4.png" class="img-fluid" alt="" />
+								<h3>Kawtar</h3> 
+								<h5>2025-02-11</h5>
 							</div>
 							<i class="fa fa-star"></i>
 							<i class="fa fa-star"></i>
@@ -290,9 +290,9 @@ function getContent($pdo, $page_name, $nom_section) {
 						</div>
 						<div class="single_testimonial">
 							<div class="testi_img">
-								<img src="assets/img/testimonial/2.jpg" class="img-fluid" alt="" />
+								<img src="assets/img/humain1.png" class="img-fluid" alt="" />
 								<h3>Lionel</h3>
-								<h5>2024-03-19</h5>
+								<h5>2025-03-19</h5>
 							</div>
 							<i class="fa fa-star"></i>
 							<i class="fa fa-star"></i>
@@ -303,9 +303,9 @@ function getContent($pdo, $page_name, $nom_section) {
 						</div>
 						<div class="single_testimonial">
 							<div class="testi_img">
-								<img src="assets/img/testimonial/3.jpg" class="img-fluid" alt="" />
+								<img src="assets/img/humain2.png" class="img-fluid" alt="" />
 								<h3>Francoise</h3>
-								<h5>2024-05-28</h5>
+								<h5>2025-05-28</h5>
 							</div>
 							<i class="fa fa-star"></i>
 							<i class="fa fa-star"></i>
@@ -316,9 +316,9 @@ function getContent($pdo, $page_name, $nom_section) {
 						</div>
 						<div class="single_testimonial">
 							<div class="testi_img">
-								<img src="assets/img/testimonial/4.jpg" class="img-fluid" alt="" />
+								<img src="assets/img/humain3.png" class="img-fluid" alt="" />
 								<h3>Latifa</h3>
-								<h5>2024-09-18</h5>
+								<h5>2025-09-18</h5>
 							</div>
 							<i class="fa fa-star"></i>
 							<i class="fa fa-star"></i>
