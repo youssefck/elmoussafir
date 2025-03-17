@@ -1,0 +1,47 @@
+/* Fix for social media icon styles */
+
+/* General social icon styles */
+.social_profile ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Increased gap for better spacing */
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+.social_profile ul li {
+    margin: 0;
+    display: flex;
+}
+
+/* First row - 5 icons */
+.social_profile ul li:nth-child(-n+5) {
+    order: 1;
+}
+
+/* Second row - TikTok and YouTube */
+.social_profile ul li:nth-child(n+6) {
+    order: 2;
+}
+
+.social_profile ul li a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    overflow: hidden;
+}
+
+/* Image sizing for social icons */
+.social_profile ul li a img {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+}
+
+/* Simple hover effect */
+.social_profile ul li a:hover {
+    opacity: 0.8;
+} 

@@ -228,10 +228,32 @@ $contenus = $stmt->fetchAll();
                                 </form>
 
                                 <form method="POST" class="mb-3">
-                                    <input type="hidden" name="nom_section" value="lien_skype">
+                                    <input type="hidden" name="nom_section" value="lien_snapchat">
                                     <div class="input-group">
-                                        <span class="input-group-text"><i class="fab fa-skype"></i></span>
-                                        <input type="url" class="form-control" name="content" value="<?php echo htmlspecialchars(getContent($pdo, 'contact', 'lien_skype')); ?>" placeholder="URL Skype">
+                                        <span class="input-group-text"><i class="fab fa-snapchat-ghost"></i></span>
+                                        <input type="url" class="form-control" name="content" value="<?php echo htmlspecialchars(getContent($pdo, 'contact', 'lien_snapchat')); ?>" placeholder="URL Snapchat">
+                                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i></button>
+                                    </div>
+                                </form>
+
+                                <form method="POST" class="mb-3">
+                                    <input type="hidden" name="nom_section" value="lien_tiktok">
+                                    <div class="input-group">
+                                        <span class="input-group-text" style="position: relative;">
+                                            <i class="fab fa-tiktok"></i>
+                                            <span style="position: absolute; width: 5px; height: 5px; background: #69C9D0; border-radius: 50%; top: 8px; left: 20px;"></span>
+                                            <span style="position: absolute; width: 5px; height: 5px; background: #EE1D52; border-radius: 50%; top: 14px; left: 20px;"></span>
+                                        </span>
+                                        <input type="url" class="form-control" name="content" value="<?php echo htmlspecialchars(getContent($pdo, 'contact', 'lien_tiktok')); ?>" placeholder="URL TikTok">
+                                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i></button>
+                                    </div>
+                                </form>
+
+                                <form method="POST" class="mb-3">
+                                    <input type="hidden" name="nom_section" value="lien_youtube">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fab fa-youtube"></i></span>
+                                        <input type="url" class="form-control" name="content" value="<?php echo htmlspecialchars(getContent($pdo, 'contact', 'lien_youtube')); ?>" placeholder="URL YouTube">
                                         <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i></button>
                                     </div>
                                 </form>

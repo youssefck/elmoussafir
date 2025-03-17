@@ -68,7 +68,9 @@ ini_set('display_errors', 1);
         <link rel="stylesheet" href="assets/css/magnific-popup.css">    
         <!-- Style CSS -->             
         <link rel="stylesheet" href="assets/css/style.css">                    
-        <link rel="stylesheet" href="assets/css/responsive.css">                    
+        <link rel="stylesheet" href="assets/css/responsive.css">
+        <!-- Social Icons Fix CSS -->
+        <link rel="stylesheet" href="assets/css/social-icons-fix.css">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
           <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -163,11 +165,13 @@ ini_set('display_errors', 1);
                             <div class="social_profile">
                                 <h4><?php echo getContent($pdo, 'contact', 'titre_reseaux_sociaux'); ?></h4>
                                 <ul>
-                                    <li><a href="<?php echo getContent($pdo, 'contact', 'lien_facebook'); ?>" class="f_facebook"><i class="fa fa-facebook"></i></a></li>
-                                    <li><a href="<?php echo getContent($pdo, 'contact', 'lien_twitter'); ?>" class="f_twitter"><i class="fa fa-twitter"></i></a></li>
-                                    <li><a href="<?php echo getContent($pdo, 'contact', 'lien_instagram'); ?>" class="f_instagram"><i class="fa fa-instagram"></i></a></li>
-                                    <li><a href="<?php echo getContent($pdo, 'contact', 'lien_linkedin'); ?>" class="f_linkedin"><i class="fa fa-linkedin"></i></a></li>
-                                    <li><a href="<?php echo getContent($pdo, 'contact', 'lien_skype'); ?>" class="f_skype"><i class="fa fa-skype"></i></a></li>
+                                    <li><a href="<?php echo getContent($pdo, 'contact', 'lien_facebook'); ?>" class="f_facebook" target="_blank" rel="noopener noreferrer"><img src="assets/img/facebook.png" alt="Facebook"></a></li>
+                                    <li><a href="<?php echo getContent($pdo, 'contact', 'lien_twitter'); ?>" class="f_twitter" target="_blank" rel="noopener noreferrer"><img src="assets/img/twitter.png" alt="Twitter"></a></li>
+                                    <li><a href="<?php echo getContent($pdo, 'contact', 'lien_instagram'); ?>" class="f_instagram" target="_blank" rel="noopener noreferrer"><img src="assets/img/instagram.png" alt="Instagram"></a></li>
+                                    <li><a href="<?php echo getContent($pdo, 'contact', 'lien_linkedin'); ?>" class="f_linkedin" target="_blank" rel="noopener noreferrer"><img src="assets/img/linkedin.png" alt="LinkedIn"></a></li>
+                                    <li><a href="<?php echo getContent($pdo, 'contact', 'lien_snapchat'); ?>" class="f_snapchat" target="_blank" rel="noopener noreferrer"><img src="assets/img/snapchat.png" alt="Snapchat"></a></li>
+                                    <li><a href="<?php echo getContent($pdo, 'contact', 'lien_tiktok'); ?>" class="f_tiktok" target="_blank" rel="noopener noreferrer"><img src="assets/img/tiktok.png" alt="TikTok"></a></li>
+                                    <li><a href="<?php echo getContent($pdo, 'contact', 'lien_youtube'); ?>" class="f_youtube" target="_blank" rel="noopener noreferrer"><img src="assets/img/youtube.png" alt="YouTube"></a></li>
                                 </ul>                                
                             </div>                    
                         </div>                    
