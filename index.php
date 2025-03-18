@@ -24,7 +24,11 @@ function getContent($pdo, $page_name, $nom_section) {
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 		<!-- SITE TITLE -->
-		<title>Bienvenue sur morchid el moussafir</title>			
+		<title>Bienvenue sur morchid el moussafir</title>
+		<!-- Favicon -->
+		<link rel="icon" href="assets/img/logo.png" type="image/png">
+		<link rel="shortcut icon" href="assets/img/logo.png" type="image/png">
+		<link rel="apple-touch-icon" href="assets/img/logo.png">
 		<!-- Latest Bootstrap min CSS -->
 		<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">				
 		<!-- Google Font -->	

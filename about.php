@@ -22,7 +22,11 @@ function getContent($pdo, $page_name, $nom_section) {
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <!-- SITE TITLE -->
-        <title><?php echo getContent($pdo, 'about', 'titre_page'); ?></title>            
+        <title><?php echo getContent($pdo, 'about', 'titre_page'); ?></title>
+        <!-- Favicon -->
+        <link rel="icon" href="assets/img/logo.png" type="image/png">
+        <link rel="shortcut icon" href="assets/img/logo.png" type="image/png">
+        <link rel="apple-touch-icon" href="assets/img/logo.png">
         <!-- Latest Bootstrap min CSS -->
         <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">             
         <!-- Google Font -->    
@@ -59,7 +63,10 @@ function getContent($pdo, $page_name, $nom_section) {
         <!-- START NAVBAR -->
         <nav class="navbar navbar-toggleable-sm fixed-top navbar-light bg-faded site-navigation">
             <div class="container">
-               <a class="navbar-brand" href="index.php"><img src="assets/img/logo.png" alt=""></a>       
+               <a class="navbar-brand" href="index.php">
+                   <img src="assets/img/logo.png" alt="Morchid El moussafir">
+                   <div class="brand-text">Bienvenue sur morchid El moussafir</div>
+               </a>       
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>

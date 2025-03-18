@@ -52,7 +52,11 @@ ini_set('display_errors', 1);
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<!-- SITE TITLE -->
-		<title><?php echo getContent($pdo, 'terms', 'titre_page'); ?></title>			
+		<title><?php echo getContent($pdo, 'terms', 'titre_page'); ?></title>
+		<!-- Favicon -->
+		<link rel="icon" href="assets/img/logo.png" type="image/png">
+		<link rel="shortcut icon" href="assets/img/logo.png" type="image/png">
+		<link rel="apple-touch-icon" href="assets/img/logo.png">
 		<!-- Latest Bootstrap min CSS -->
 		<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">				
 		<!-- Google Font -->	
