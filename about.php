@@ -63,10 +63,7 @@ function getContent($pdo, $page_name, $nom_section) {
         <!-- START NAVBAR -->
         <nav class="navbar navbar-toggleable-sm fixed-top navbar-light bg-faded site-navigation">
             <div class="container">
-               <a class="navbar-brand" href="index.php">
-                   <img src="assets/img/logo.png" alt="Morchid El moussafir">
-                   <div class="brand-text">Bienvenue sur morchid El moussafir</div>
-               </a>       
+               <a class="navbar-brand" href="index.php"><img src="assets/img/logo.png" alt="Morchid El moussafir"></a>       
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>

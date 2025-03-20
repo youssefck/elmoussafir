@@ -39,13 +39,6 @@ This is the website for Morchid El Moussafir, a transportation and logistics com
 - Consider implementing HTTPS for secure connections
 - Regularly backup your database
 
-## Frontend Pages
-- Home (`index.html`)
-- Services (`service.html`)
-- About Us (`about.html`)
-- Contact (`contact.html`)
-- Terms & Conditions (`terms.html`)
-- Thank You (`thankyou.html`)
 
 ## Contact
 For technical support, please contact your web developer. 

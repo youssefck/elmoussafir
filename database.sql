@@ -1,6 +1,3 @@
--- Create the database
-CREATE DATABASE IF NOT EXISTS elmoussafir;
-USE elmoussafir;
 
 -- Create admin users table
 CREATE TABLE admin_users (

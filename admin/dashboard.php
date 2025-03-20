@@ -144,123 +144,39 @@ $contenus = $stmt->fetchAll();
                     </div>
                 <?php endforeach; ?>
             <?php elseif ($current_page === 'contact'): ?>
-                <!-- Contact Form Section -->
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="card-header bg-primary text-white">
-                            <h5 class="mb-0"><i class="fas fa-envelope"></i> Section Formulaire</h5>
-                        </div>
-                        <div class="card-body">
-                            <form method="POST">
-                                <input type="hidden" name="nom_section" value="titre_formulaire">
-                                <div class="mb-3">
-                                    <label class="form-label">Titre du formulaire:</label>
-                                    <input type="text" class="form-control" name="content" value="<?php echo htmlspecialchars(getContent($pdo, 'contact', 'titre_formulaire')); ?>">
-                                </div>
-                                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Mettre à jour</button>
-                            </form>
-                            <form method="POST" class="mt-3">
-                                <input type="hidden" name="nom_section" value="intro_contact">
-                                <div class="mb-3">
-                                    <label class="form-label">Texte d'introduction:</label>
-                                    <textarea class="form-control" name="content" rows="4"><?php echo htmlspecialchars(getContent($pdo, 'contact', 'intro_contact')); ?></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Mettre à jour</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Social Media Section -->
-                <div class="col-md-6 mb-4">
-                    <div class="card">
-                        <div class="card-header bg-primary text-white">
-                            <h5 class="mb-0"><i class="fas fa-share-alt"></i> Réseaux Sociaux</h5>
-                        </div>
-                        <div class="card-body">
-                            <form method="POST">
-                                <input type="hidden" name="nom_section" value="titre_reseaux_sociaux">
-                                <div class="mb-3">
-                                    <label class="form-label">Titre des réseaux sociaux:</label>
-                                    <input type="text" class="form-control" name="content" value="<?php echo htmlspecialchars(getContent($pdo, 'contact', 'titre_reseaux_sociaux')); ?>">
-                                </div>
-                                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Mettre à jour</button>
-                            </form>
-
-                            <!-- Social Media URLs -->
-                            <div class="mt-4">
-                                <h6 class="mb-3">Liens des réseaux sociaux</h6>
-                                
-                                <form method="POST" class="mb-3">
-                                    <input type="hidden" name="nom_section" value="lien_facebook">
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fab fa-facebook"></i></span>
-                                        <input type="url" class="form-control" name="content" value="<?php echo htmlspecialchars(getContent($pdo, 'contact', 'lien_facebook')); ?>" placeholder="URL Facebook">
-                                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i></button>
+                <!-- Contact Content -->
+                <?php foreach ($contenus as $contenu): ?>
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-edit"></i> 
+                                    <?php echo ucfirst($contenu['nom_section']); ?>
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <form method="POST">
+                                    <input type="hidden" name="nom_section" value="<?php echo $contenu['nom_section']; ?>">
+                                    <div class="mb-3">
+                                        <label class="form-label">Contenu:</label>
+                                        <?php if (strpos($contenu['nom_section'], 'lien') !== false || strpos($contenu['nom_section'], 'link') !== false || 
+                                                strpos($contenu['nom_section'], 'email') !== false): ?>
+                                            <input type="<?php echo strpos($contenu['nom_section'], 'email') !== false ? 'email' : 'text'; ?>" 
+                                                  class="form-control" name="content" 
+                                                  value="<?php echo htmlspecialchars($contenu['contenu']); ?>" 
+                                                  placeholder="<?php echo ucfirst($contenu['nom_section']); ?>">
+                                        <?php else: ?>
+                                            <textarea class="form-control" name="content" rows="4"><?php echo htmlspecialchars($contenu['contenu']); ?></textarea>
+                                        <?php endif; ?>
                                     </div>
-                                </form>
-
-                                <form method="POST" class="mb-3">
-                                    <input type="hidden" name="nom_section" value="lien_twitter">
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fab fa-twitter"></i></span>
-                                        <input type="url" class="form-control" name="content" value="<?php echo htmlspecialchars(getContent($pdo, 'contact', 'lien_twitter')); ?>" placeholder="URL Twitter">
-                                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i></button>
-                                    </div>
-                                </form>
-
-                                <form method="POST" class="mb-3">
-                                    <input type="hidden" name="nom_section" value="lien_instagram">
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fab fa-instagram"></i></span>
-                                        <input type="url" class="form-control" name="content" value="<?php echo htmlspecialchars(getContent($pdo, 'contact', 'lien_instagram')); ?>" placeholder="URL Instagram">
-                                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i></button>
-                                    </div>
-                                </form>
-
-                                <form method="POST" class="mb-3">
-                                    <input type="hidden" name="nom_section" value="lien_linkedin">
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fab fa-linkedin"></i></span>
-                                        <input type="url" class="form-control" name="content" value="<?php echo htmlspecialchars(getContent($pdo, 'contact', 'lien_linkedin')); ?>" placeholder="URL LinkedIn">
-                                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i></button>
-                                    </div>
-                                </form>
-
-                                <form method="POST" class="mb-3">
-                                    <input type="hidden" name="nom_section" value="lien_snapchat">
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fab fa-snapchat-ghost"></i></span>
-                                        <input type="url" class="form-control" name="content" value="<?php echo htmlspecialchars(getContent($pdo, 'contact', 'lien_snapchat')); ?>" placeholder="URL Snapchat">
-                                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i></button>
-                                    </div>
-                                </form>
-
-                                <form method="POST" class="mb-3">
-                                    <input type="hidden" name="nom_section" value="lien_tiktok">
-                                    <div class="input-group">
-                                        <span class="input-group-text" style="position: relative;">
-                                            <i class="fab fa-tiktok"></i>
-                                            <span style="position: absolute; width: 5px; height: 5px; background: #69C9D0; border-radius: 50%; top: 8px; left: 20px;"></span>
-                                            <span style="position: absolute; width: 5px; height: 5px; background: #EE1D52; border-radius: 50%; top: 14px; left: 20px;"></span>
-                                        </span>
-                                        <input type="url" class="form-control" name="content" value="<?php echo htmlspecialchars(getContent($pdo, 'contact', 'lien_tiktok')); ?>" placeholder="URL TikTok">
-                                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i></button>
-                                    </div>
-                                </form>
-
-                                <form method="POST" class="mb-3">
-                                    <input type="hidden" name="nom_section" value="lien_youtube">
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fab fa-youtube"></i></span>
-                                        <input type="url" class="form-control" name="content" value="<?php echo htmlspecialchars(getContent($pdo, 'contact', 'lien_youtube')); ?>" placeholder="URL YouTube">
-                                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i></button>
-                                    </div>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i> Mettre à jour
+                                    </button>
                                 </form>
                             </div>
                         </div>
                     </div>
-                </div>
+                <?php endforeach; ?>
             <?php elseif ($current_page === 'about'): ?>
                 <?php foreach ($contenus as $contenu): ?>
                     <div class="col-md-6 mb-4">
